@@ -1,8 +1,9 @@
 <body>
-<<%= render "/shared/header" %>>
+<%= render "/shared/header" %>
 
 <p><%= @game.title%></p>
-<p><%= @game.maker%></p>
+<p>パブリッシャー:<%= @game.maker%></p>
+<p>リリース日:<%=@game.release_date%></p>
 <% @hardwares.each do |hardware|%>
     <p><%=hardware.name%></p>
 <% end %>
