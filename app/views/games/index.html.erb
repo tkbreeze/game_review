@@ -1,0 +1,10 @@
+<body>
+<<%= render "shared/header" %>>
+
+<% @games.each do |game| %>
+        <p><%= link_to game.title,game_path(game) %></p>
+<% end %>
+<nav class="navbar navbar-dark bg-info">
+  <a href="#" class="navbar-brand">Bootstrap</a>
+</nav>
+</body>

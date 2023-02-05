@@ -1,0 +1,12 @@
+<body>
+<<%= render "/shared/header" %>>
+
+<p><%= @game.title%></p>
+<p><%= @game.maker%></p>
+<% @hardwares.each do |hardware|%>
+    <p><%=hardware.name%></p>
+<% end %>
+<% @genres.each do |genre|%>
+    <p><%=genre.name%></p>
+<% end %>
+</body>

@@ -47,6 +47,13 @@ gem "bootsnap", require: false
 
 gem "devise"
 
+#ページカーネーション
+gem 'kaminari'
+
+#日本語化
+gem 'rails-i18n'
+gem 'enum_help'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
