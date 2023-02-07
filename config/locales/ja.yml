@@ -1,0 +1,17 @@
+ja:
+  enums:
+    review:
+      good_point:
+        not_defined: 特になし
+        game_property: ゲーム性
+        graphic: グラフィック
+        world: 世界観
+        contents: コンテンツ
+        BGM: BGM
+      bad_point:
+        not_defined: 特になし
+        game_property: ゲーム性
+        graphic: グラフィック
+        world: 世界観
+        contents: コンテンツ
+        BGM: BGM

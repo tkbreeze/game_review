@@ -10,4 +10,5 @@
 <% @genres.each do |genre|%>
     <p><%=genre.name%></p>
 <% end %>
+<%=link_to 'レビュー投稿', new_game_review_path(@game), class:"btn btn-primary"%>
 </body>

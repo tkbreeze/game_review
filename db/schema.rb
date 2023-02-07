@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_04_132839) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_06_144239) do
   create_table "game_genres", force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "genre_id", null: false
@@ -54,6 +54,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_132839) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "play_hour", null: false
+    t.text "body"
+    t.decimal "score", precision: 4, scale: 1, null: false
+    t.string "classification_flag", default: "f"
+    t.integer "good_point", default: 0
+    t.integer "bad_point", default: 0
     t.index ["game_id"], name: "index_reviews_on_game_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
