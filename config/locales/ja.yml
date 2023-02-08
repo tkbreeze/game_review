@@ -1,4 +1,13 @@
 ja:
+  activerecord:
+    attributes:
+      review:
+        play_hour: プレイ時間
+        score: スコア
+        good_point: 良い点
+        bad_point: 悪い点
+        title: タイトル
+        body: レビュー内容
   enums:
     review:
       good_point:

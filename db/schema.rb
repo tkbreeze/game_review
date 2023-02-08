@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_06_144239) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_08_073635) do
   create_table "game_genres", force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "genre_id", null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_06_144239) do
     t.string "classification_flag", default: "f"
     t.integer "good_point", default: 0
     t.integer "bad_point", default: 0
+    t.string "title", default: "なし"
     t.index ["game_id"], name: "index_reviews_on_game_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
