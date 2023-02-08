@@ -20,13 +20,22 @@ class ReviewsController < ApplicationController
     def edit
     end
 
+    def update
+        if @review.user_id == current_user.id
+            @review.update(review_params)
+            redirect_to game_path(@review.game_id)
+        else
+            render action: :edit
+        end
+    end
+
     private
     def review_params
         params.require(:review).permit(:play_hour, :body, :score, :good_point, :bad_point, :classification_flag).merge(user_id: current_user.id, game_id: params[:game_id])
     end
 
     def review_set
-        @review = Review.find(params[:id])
+        @review = Review.find_by(game_id: params[:game_id], user_id: current_user.id)
     end
 
     def game_set
