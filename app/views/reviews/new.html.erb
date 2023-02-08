@@ -16,12 +16,12 @@
 
     <div class="mb-3">
       <%= f.label :good_point, { class: "form-label"} %>
-      <%= f.select :good_point, Review.good_points.keys.map{|k| [t("enum.review.good_point.#{k}"), k] }, { class: "form-control", placeholder: "任意" } %>
+      <%= f.select :good_point, Review.good_points.keys.map{|k| [I18n.t("enums.review.good_point.#{k}"), k] }, { class: "form-control", placeholder: "任意" } %>
     </div>
 
     <div class="mb-3">
       <%= f.label :bad_point, { class: "form-label"} %>
-      <%= f.select :bad_point, Review.bad_points.keys.map{|k| [t("enum.review.bad_point.#{k}"), k] }, { class: "form-control", placeholder: "任意" } %>
+      <%= f.select :bad_point, Review.bad_points.keys.map{|k| [I18n.t("enums.review.bad_point.#{k}"), k] }, { class: "form-control", placeholder: "任意" } %>
     </div>
 
     <div class="mb-3">
