@@ -4,7 +4,11 @@ class ReviewsController < ApplicationController
     before_action :game_set, only: [:new,:show, :edit]
 
     def new
-        @review = Review.new
+        if Review.find_by(user_id: current_user.id)
+            redirect_to edit_game_review_path(@game,Review.find_by(user_id: current_user.id))
+        else
+            @review = Review.new
+        end
         #@review.build
     end
     

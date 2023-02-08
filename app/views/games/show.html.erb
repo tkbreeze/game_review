@@ -21,10 +21,10 @@
     </dd>
 </dl>
 
-<%if @reviews.exists?(user_id: current_user.id)%>
-    <%=link_to 'レビュー編集', edit_game_review_path(@game), class:"btn btn-primary"%>
-<%else%>
+<%if !user_signed_in? or !@reviews.exists?(user_id: current_user.id)%>
     <%=link_to 'レビュー投稿', new_game_review_path(@game), class:"btn btn-primary"%>
+<%else%>
+    <%=link_to 'レビュー編集', edit_game_review_path(@game), class:"btn btn-primary"%>
 <%end%>
 
 <p></p>
