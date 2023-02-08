@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     passwords: "users/passwords",
     confirmations: "users/confirmations"
   }
-  root 'games#index'
+  root to: 'games#index'
   resources :games, only: [:index, :show] do
     resources :reviews
   end

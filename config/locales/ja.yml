@@ -1,0 +1,26 @@
+ja:
+  activerecord:
+    attributes:
+      review:
+        play_hour: プレイ時間
+        score: スコア
+        good_point: 良い点
+        bad_point: 悪い点
+        title: タイトル
+        body: レビュー内容
+  enums:
+    review:
+      good_point:
+        not_defined: 特になし
+        game_property: ゲーム性
+        graphic: グラフィック
+        world: 世界観
+        contents: コンテンツ
+        BGM: BGM
+      bad_point:
+        not_defined: 特になし
+        game_property: ゲーム性
+        graphic: グラフィック
+        world: 世界観
+        contents: コンテンツ
+        BGM: BGM
