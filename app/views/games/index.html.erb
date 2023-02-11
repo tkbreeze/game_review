@@ -1,7 +1,26 @@
 <body>
 <%= render "shared/header" %>
-
+<p></p>
+<div class="row row-cols-1 row-cols-lg-2 g-4">
 <% @games.each do |game| %>
-        <p><%= link_to game.title,game_path(game) %></p>
+    <%review = Review.where(game_id: game)%>
+    <div class="col">
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-2 col-lg-3">
+                <%=image_tag '1.jpg', class:"img-fluid"%>
+            </div>
+            <div class="col-md-10 col-lg-9">
+                <div class="card-body">
+                    <h5 class="card-title"><%=game.title%></h5>
+                    <p class="card-text">スコア: <%=review.average(:score)%></p>
+                    <p class="card-text">発売日: <%=game.release_date%></p>
+                    <p class="card-text">パブリッシャー: <%=game.maker%>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 <% end %>
+</div>
 </body>
