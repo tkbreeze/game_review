@@ -9,15 +9,11 @@
         <li class="nav-item">
           <%= link_to "Top", root_path,class:"nav-link active" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Nintendo Switch","#",class:"nav-link"%>
-        </li>
-        <li class="nav-item">
-          <%= link_to "PS5","#",class:"nav-link"%>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Xbox X/S","#",class:"nav-link"%>
-        </li>
+        <%Hardware.all.each do |hardware|%>
+          <li class="nav-item">
+            <%= link_to hardware.name,games_path(name: hardware.id),class:"nav-link"%>
+          </li>
+        <%end%>
     <ul class="navbar-nav ms-auto">
         <% if current_user %>
           <li class="nav-item dropdown">
