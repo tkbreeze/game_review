@@ -1,7 +1,39 @@
 <body>
 <%= render "shared/header" %>
-
-<% @games.each do |game| %>
-        <p><%= link_to game.title,game_path(game) %></p>
-<% end %>
+<p></p>
+<div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1">
+  <% @games.each do |game| %>
+    <%review = Review.where(game_id: game)%>
+    <%hardwares = Hardware.where(id: GameHardware.where(game_id: Game.where(id: game)))%>
+    <%flag=0%>
+    <div class="col">
+      <div class="card mb-3 h-100">
+        <%= link_to game_path(game),class: "text-decoration-none link-dark" do%>
+          <div class="row g-0">
+            <div class="col-md-2 col-lg-3">
+              <%=image_tag game.id.to_s+'.jpg', class:"img-fluid"%>
+            </div>
+            <div class="col-md-10 col-lg-9">
+              <div class="card-body">
+                <h5 class="card-title"><%=game.title%></h5>
+                <p class="card-text">スコア: <%=review.average(:score)%></p>
+                <p class="card-text">発売日: <%=game.release_date%></p>
+                <p class="card-text">パブリッシャー: <%=game.maker%></p>
+                <%hardwares.each do |hardware|%>
+                  <%if flag==0%>
+                    <p class="card-text">対応ハード: <%=hardware.name%></p>
+                    <%flag=1%>
+                  <%else%>
+                    <p class="card-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=hardware.name%></p>
+                  <%end%>
+                <%end%>
+                </p>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      </div>
+    </div>
+  <% end %>
+</div>
 </body>
