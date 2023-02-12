@@ -1,2 +1,9 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap');
+.nav-title{
+    font-family: 'Playfair Display', serif;
+    text-decoration:none;
+    color: black;
+    font-size: 50px;
+}
