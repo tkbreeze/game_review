@@ -4,8 +4,8 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2">
         <li class="nav-item">
           <%= link_to "Top", root_path,class:"nav-link active" %>
         </li>
@@ -14,7 +14,7 @@
             <%= link_to hardware.name,games_path(name: hardware.id),class:"nav-link"%>
           </li>
         <%end%>
-    <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto">
         <% if current_user %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
