@@ -1,7 +1,7 @@
 <%= render "shared/header"%>
 <h2>アカウントのロック解除方法を再送する</h2>
 
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+<%= form_with model: @user, url: unlock_path(resource_name), local: true do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
 
   <div class="field">
