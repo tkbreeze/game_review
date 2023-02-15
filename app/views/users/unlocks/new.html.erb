@@ -1,15 +1,16 @@
-<h2>Resend unlock instructions</h2>
+<%= render "shared/header"%>
+<h2>アカウントのロック解除方法を再送する</h2>
 
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+<%= form_with model: @user, url: unlock_path(resource_name), local: true do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="mb-3">
+    <%= f.label :email, class:"form-label" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control w-25" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Resend unlock instructions" %>
+  <div class="actions mb-3">
+    <%= f.submit "再送する", class:"btn btn-primary" %>
   </div>
 <% end %>
 

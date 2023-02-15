@@ -1,7 +1,8 @@
-<p>Hello <%= @email %>!</p>
+<%= render "shared/header"%>
+<p>こんにちは <%= @email %>!</p>
 
 <% if @resource.try(:unconfirmed_email?) %>
-  <p>We're contacting you to notify you that your email is being changed to <%= @resource.unconfirmed_email %>.</p>
+  <p>あなたのメールアカウントが<%= @resource.unconfirmed_email %>に変更されることをお知らせするためにご連絡しています</p>
 <% else %>
-  <p>We're contacting you to notify you that your email has been changed to <%= @resource.email %>.</p>
+  <p>あなたのメールアカウントが<%= @resource.email %>に変更されたことをお知らせするためにご連絡しています。</p>
 <% end %>
