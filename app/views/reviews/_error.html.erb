@@ -1,0 +1,15 @@
+<% if review.errors.any? %>
+  <div class="mb-3">
+    <h3>
+      <%= I18n.t("errors.template.header",
+                 count: review.errors.count,
+                 model: review.model_name.human)
+       %>
+    </h3>
+    <ul>
+      <% review.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

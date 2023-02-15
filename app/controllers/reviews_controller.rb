@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
     before_action :authenticate_user!, only: :new
     before_action :review_set, only: [:show,:destroy, :edit, :update]
-    before_action :game_set, only: [:new,:show, :edit]
+    before_action :game_set
 
     def new
         if Review.find_by(user_id: current_user.id, game_id: @game)
@@ -17,7 +17,7 @@ class ReviewsController < ApplicationController
         if @review.save
             redirect_to game_path(@review.game_id)
         else
-            render action: :new
+            render 'new', status: :unprocessable_entity
         end
     end
 
