@@ -33,10 +33,11 @@ class ReviewsController < ApplicationController
     end
 
     def destroy
-        if @review.user_id == current_user.id and @review.destroy(review_params)
-            redirect_to game_path(@review.game_id)
+        if @review.user_id == current_user.id and @review.destroy
+            redirect_to game_path(@review.game_id), status: :see_other
         else
             redirect_to game_path(@review.game_id)
+        end
     end
 
     private
