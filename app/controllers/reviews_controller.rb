@@ -25,11 +25,10 @@ class ReviewsController < ApplicationController
     end
 
     def update
-        if @review.user_id == current_user.id
-            @review.update(review_params)
+        if @review.user_id == current_user.id and @review.update(review_params)
             redirect_to game_path(@review.game_id)
         else
-            render action: :edit
+            render action: :edit, status: :unprocessable_entity
         end
     end
 
