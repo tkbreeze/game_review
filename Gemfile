@@ -54,6 +54,9 @@ gem 'kaminari'
 gem 'rails-i18n'
 gem 'enum_help'
 
+#デバッグをやりやすくする
+gem 'pry-rails'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
