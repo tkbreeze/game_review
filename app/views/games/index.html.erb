@@ -4,7 +4,7 @@
 <div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1">
   <% @games.each do |game| %>
     <%review = Review.where(game_id: game)%>
-    <%hardwares = Hardware.where(id: GameHardware.where(game_id: Game.where(id: game)))%>
+    <%hardwares = Hardware.joins(:game_hardwares).where(game_hardwares:{game_id: game})%>
     <%flag=0%>
     <div class="col">
       <div class="card mb-3 h-100">
