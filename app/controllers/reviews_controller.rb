@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-    before_action :authenticate_user!, only: :new
+    before_action :authenticate_user!, only: [:new,:edit,:destroy]
     before_action :review_set, only: [:show,:destroy, :edit, :update]
     before_action :game_set
 
@@ -30,6 +30,13 @@ class ReviewsController < ApplicationController
         else
             render action: :edit, status: :unprocessable_entity
         end
+    end
+
+    def destroy
+        if @review.user_id == current_user.id and @review.destroy(review_params)
+            redirect_to game_path(@review.game_id)
+        else
+            redirect_to game_path(@review.game_id)
     end
 
     private
