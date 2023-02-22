@@ -8,7 +8,7 @@
     <%flag=0%>
     <div class="col">
       <div class="card mb-3 h-100">
-        <%= link_to game_path(game),class: "text-decoration-none link-dark" do%>
+        <%= link_to game_path(game),class: "text-decoration-none link-dark",id:game.title do%>
           <div class="row g-0">
             <div class="col-md-2 col-lg-2">
               <%=image_tag game.id.to_s+'.jpg', class:"img-fluid"%>

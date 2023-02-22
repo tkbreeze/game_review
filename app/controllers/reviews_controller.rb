@@ -42,7 +42,7 @@ class ReviewsController < ApplicationController
 
     private
     def review_params
-        params.require(:review).permit(:play_hour, :body, :score, :good_point, :bad_point, :classification_flag).merge(user_id: current_user.id, game_id: params[:game_id])
+        params.require(:review).permit(:title,:play_hour, :body, :score, :good_point, :bad_point, :classification_flag).merge(user_id: current_user.id, game_id: params[:game_id])
     end
 
     def review_set
