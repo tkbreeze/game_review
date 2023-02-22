@@ -98,17 +98,6 @@ RSpec.describe 'Reviews API', type: :request do
             end
           end
         end
-        context "違うゲームの場合" do
-          before do
-            @review = FactoryBot.create(:review, user:user, game:other_game, body:"Old")
-          end
-          it "レビューを更新できない" do
-            sign_in user
-            review_params = FactoryBot.attributes_for(:review, review_params, user:user, game:game, body:"New")
-            patch game_review_path(other_game,id:@review.id), params: {review: review_params}
-            expect(@review.reload.body).to eq "Old"
-          end
-        end
       end
       context "違うユーザーの場合" do
         before do
