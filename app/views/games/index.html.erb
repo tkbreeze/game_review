@@ -1,7 +1,7 @@
 <body>
 <%= render "shared/header" %>
 <p></p>
-<div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1">
+<div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1 m-lg-4">
   <% @games.each do |game| %>
     <%review = Review.where(game_id: game)%>
     <%hardwares = Hardware.joins(:game_hardwares).where(game_hardwares:{game_id: game})%>
