@@ -11,6 +11,8 @@ class GamesController < ApplicationController
         #@hardware = Hardware.where(game_id: @game)
         @genres = Genre.joins(:game_genres).where(game_genres: {game_id: @game})
         @reviews = Review.where(game_id: @game).includes(:user).order(created_at: :desc).page(params[:page]).per(5)
+        @reviews_good_graph = Review.where(game_id: @game).where.not(good_point: "not_defined")
+        @reviews_bad_graph = Review.where(game_id: @game).where.not(bad_point: "not_defined")
     end
 
     def game_params

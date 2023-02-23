@@ -29,7 +29,8 @@
       <%review = @reviews.find_by(user_id: current_user.id)%>
       <%=link_to 'レビュー削除', "#{@game.id}/reviews/#{review.id}", class:"btn btn-primary", data:{turbo_method: :delete, turbo_confirm: '本当によろしいですか?'}%>
   <%end%>
-
+  <%=pie_chart @reviews.group(:good_point).count%>
+  <%=pie_chart @reviews.group(:bad_point).count%>
   <p></p>
   <h3>レビュー</h3>
   <div class="card">
