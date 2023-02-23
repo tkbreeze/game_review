@@ -4,38 +4,40 @@
   <div class="card-body">
     <div class="mb-3">
       <%= f.label :play_hour, { class: "form-label"} %>
+      <span class="badge bg-danger">必須</span>
       <%= f.number_field :play_hour, step:0.1,min:0.0, class: "form-control", placeholder: "0.1時間刻みで記入"  %>
-      <div class="form-text">必須</div>
     </div>
 
     <div class="mb-3">
       <%= f.label :score, { class: "form-label"} %>
+      <span class="badge bg-danger">必須</span>
       <%= f.number_field :score,in:0.0..10.0,step:0.1, class: "form-control", placeholder: "0.1点刻みで10点満点" %>
-      <div class="form-text">必須</div>
     </div>
 
     <div class="mb-3">
-      <%= f.label :good_point, { class: "form-label"} %><br>
+      <%= f.label :good_point, { class: "form-label"} %>
+      <span class="badge bg-secondary">任意</span><br>
       <%= f.select :good_point, Review.good_points.keys.map{|k| [I18n.t("enums.review.good_point.#{k}"), k] }, { class: "form-select" } %>
-      <div class="form-text">任意</div>
     </div>
 
     <div class="mb-3">
-      <%= f.label :bad_point, { class: "form-label"} %><br>
+      <%= f.label :bad_point, { class: "form-label"} %>
+      <span class="badge bg-secondary">任意</span><br>
       <%= f.select :bad_point, Review.bad_points.keys.map{|k| [I18n.t("enums.review.bad_point.#{k}"), k] },  class: "form-select"  %>
-      <div class="form-text">任意</div>
     </div>
 
     <div class="mb-3">
       <%= f.label :title, { class: "form-label"} %>
+      <span class="badge bg-secondary">任意</span>
       <%= f.text_field :title, class: "form-control"%>
-      <div class="form-text">任意</div>
+      <div class="form-text">レビュー内容がある場合は、必須です</div>
     </div>
 
     <div class="mb-3">
       <%= f.label :body, { class: "form-label"} %>
+      <span class="badge bg-secondary">任意</span>
       <%= f.text_area :body, size: "70x5" ,class: "form-control"%>
-      <div class="form-text">任意</div>
+      <div class="form-text">タイトルがある場合は、必須です</div>
     </div>
     <%= f.submit "送信", class: "btn btn-primary" %>
 
