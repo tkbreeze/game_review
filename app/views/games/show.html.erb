@@ -37,20 +37,20 @@
       <% @reviews.each do |review|%>
         <%if review.title.present?%>
           <h4 class="card-title"><%=review.title%></h4>
+          <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
+          <dl class="row">
+            <dt class="col-sm-3">プレイ時間</dt>
+            <dd class="col-sm-9"><%= review.play_hour%></dd>
+            <dt class="col-sm-3">スコア</dt>
+            <dd class="col-sm-9"><%=review.score%></dd>
+            <dt class="col-sm-3">良い点</dt>
+            <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
+            <dt class="col-sm-3">悪い点</dt>
+            <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
+          </dl>
+          <h6>内容</h6>
+          <p class="card-text"><%=review.body%></p>
         <%end%>
-        <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
-        <dl class="row">
-          <dt class="col-sm-3">プレイ時間</dt>
-          <dd class="col-sm-9"><%= review.play_hour%></dd>
-          <dt class="col-sm-3">スコア</dt>
-          <dd class="col-sm-9"><%=review.score%></dd>
-          <dt class="col-sm-3">良い点</dt>
-          <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
-          <dt class="col-sm-3">悪い点</dt>
-          <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
-        </dl>
-        <h6>内容</h6>
-        <p class="card-text"><%=review.body%></p>
       <% end %>
     </div>
   </div>
