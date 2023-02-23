@@ -76,13 +76,13 @@ RSpec.describe Review, type: :model do
   end
 
   it "titleがあり、bodyがないとき、無効な状態であること" do
-    review = FactoryBot.create(:review, user:user, game:game, body:nil)
+    review = FactoryBot.build(:review, user:user, game:game, body:nil)
     review.valid?
     expect(review.errors[:body]).to include("タイトルがあるときは、レビュー内容必須です")
   end
 
   it "bodyがあり、titleがないとき、無効な状態であること" do
-    review = FactoryBot.create(:review, user:user, game:game, title:nil)
+    review = FactoryBot.build(:review, user:user, game:game, title:nil)
     review.valid?
     expect(review.errors[:title]).to include("レビュー内容があるときは、タイトル必須です")
   end
