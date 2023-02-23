@@ -6,19 +6,39 @@ RSpec.describe "Reviews", type: :system do
 
   describe "create" do
     context "サインインしている場合" do
-      it "レビュー投稿できる" do
-        sign_in user
-        visit root_path
-        find('#test_game_title').click
-        expect{
-            click_link "レビュー投稿"
-            create_review(title:"test_title")
+      context "タイトルとレビュー内容があるとき" do
+        it "レビュー投稿でき、レビューが表示される" do
+          sign_in user
+          visit root_path
+          find('#test_game_title').click
+          expect{
+              click_link "レビュー投稿"
+              create_review(title:"test_title",body:"test_body")
 
-            aggregate_failures do
-                expect(page).to have_content "test_game_title"
-                expect(page).to have_content "test_title"
-            end
-        }.to change(user.reviews, :count).by(1)
+              aggregate_failures do
+                  expect(page).to have_content "test_game_title"
+                  expect(page).to have_content "test_title"
+                  expect(page).to have_content "test_body"
+              end
+          }.to change(user.reviews, :count).by(1)
+        end
+      end
+      context "タイトルとレビュー内容がない時" do
+        it "レビュー投稿はできるが、レビューは表示されない" do
+          sign_in user
+          visit root_path
+          find('#test_game_title').click
+          expect{
+              click_link "レビュー投稿"
+              create_review(title:nil,body:nil)
+
+              aggregate_failures do
+                  expect(page).to have_content "test_game_title"
+                  expect(page).to_not have_content "プレイ時間"
+                  expect(page).to_not have_content "スコア"
+              end
+          }.to change(user.reviews, :count).by(1)
+        end
       end
     end
     context "サインインしていない場合" do
@@ -29,7 +49,7 @@ RSpec.describe "Reviews", type: :system do
           click_link "レビュー投稿"
           user_sign_in user
           expect{
-            create_review(title: "test_title")
+            create_review(title: "test_title",body: "test_body")
 
             aggregate_failures do
               expect(page).to have_content "test_game_title"
@@ -47,7 +67,7 @@ RSpec.describe "Reviews", type: :system do
           expect{
             click_link "レビュー投稿"
             user_sign_in user
-            create_review(title: "test_title")
+            create_review(title: "test_title", body:"test_body")
 
             aggregate_failures do
               expect(page).to have_content "test_game_title"
@@ -83,14 +103,28 @@ RSpec.describe "Reviews", type: :system do
         end
         context "ユーザーがそのゲームに対してレビューを書いている" do
           let!(:review) {FactoryBot.create(:review, game:game, user:user, title:"Old")}
-          it "レビュー編集できる" do
-            sign_in user
-            visit root_path
-            find('#test_game_title').click
-            click_link "レビュー編集"
-            edit_review(title:"New review")
-            expect(page).to have_content "New review"
-            expect(review.reload.title).to eq "New review"
+          context "編集したときにタイトルとレビュー内容がある"do
+            it "レビュー編集でき、編集したレビューが表示される" do
+              sign_in user
+              visit root_path
+              find('#test_game_title').click
+              click_link "レビュー編集"
+              edit_review(title:"New review")
+              expect(page).to have_content "New review"
+              expect(review.reload.title).to eq "New review"
+            end
+          end
+          context "編集したときにタイトルとレビュー内容を消す" do
+            it "レビュー編集できるが、レビューが表示されなくなる" do
+              sign_in user
+              visit root_path
+              find('#test_game_title').click
+              click_link "レビュー編集"
+              edit_review(score: 10.0, title:nil, body:nil)
+              expect(page).to_not have_content "プレイ時間"
+              expect(page).to_not have_content "スコア"
+              expect(review.reload.score).to eq 10.0
+            end
           end
         end
       end
@@ -162,17 +196,20 @@ RSpec.describe "Reviews", type: :system do
 
   #レビュー投稿する関数
   #キーワード引数
-  def create_review(title:)
+  def create_review(title:,body:)
     fill_in "プレイ時間", with: 19.5
     fill_in "スコア", with: 9.0
     fill_in "タイトル", with: title
+    fill_in "レビュー内容", with: body
     click_button "送信"
   end
 
   #レビュー編集する関数
   #キーワード引数
-  def edit_review(title:)
+  def edit_review(score:9.0, title:, body:"New body")
+    fill_in "スコア", with: score
     fill_in "タイトル", with: title
+    fill_in "レビュー内容", with: body
     click_button "送信"
   end
 end
