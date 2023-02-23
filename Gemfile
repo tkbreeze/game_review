@@ -57,6 +57,9 @@ gem 'enum_help'
 #デバッグをやりやすくする
 gem 'pry-rails'
 
+#円グラフ作成
+gem 'chartkick'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
