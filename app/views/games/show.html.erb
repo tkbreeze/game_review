@@ -42,53 +42,61 @@
     <div class="col-lg-5 mt-4 mt-lg-0">
       <h3>レビューサマリー</h3>
       <div class="card pe-2">
-        <div class="row">
-          <div class="col-4 position-relative">
-            <h4 class="mt-5 text-center">スコア</h4> 
-            <%#画面サイズがmd未満のとき%>
-            <div class="d-md-none">
-              <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:5rem;height:5rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+        <%if @reviews.count != 0%>
+          <div class="row">
+            <div class="col-4 position-relative">
+              <h4 class="mt-5 text-center">スコア</h4> 
+              <%#画面サイズがmd未満のとき%>
+              <div class="d-md-none">
+                <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:5rem;height:5rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+              </div>
+              <%#画面サイズがmd以上のとき%>
+              <div class="d-none d-md-block">
+                <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:10rem;height:10rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+              </div>
             </div>
-            <%#画面サイズがmd以上のとき%>
-            <div class="d-none d-md-block">
-              <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:10rem;height:10rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+            <div class="col-4">
+              <h4 class="text-center mt-1">良い点<%=link_to game_path(@game, anchor: 'good_point_explain') do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
+              <%=pie_chart @reviews.group(:good_point).count%>
+              <div class="mb-2"></div>
+            </div>
+            <div class="col-4">
+              <h4 class="text-center mt-1">悪い点<%=link_to game_path(@game, anchor: 'good_point_explain') do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
+              <%=pie_chart @reviews.group(:bad_point).count%>
+              <div class="mb-2"></div>
             </div>
           </div>
-          <div class="col-4">
-            <h4 class="text-center mt-1">良い点<%=link_to game_path(@game, anchor: 'good_point_explain') do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
-            <%=pie_chart @reviews.group(:good_point).count%>
-            <div class="mb-2"></div>
-          </div>
-          <div class="col-4">
-            <h4 class="text-center mt-1">悪い点<%=link_to game_path(@game, anchor: 'good_point_explain') do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
-            <%=pie_chart @reviews.group(:bad_point).count%>
-            <div class="mb-2"></div>
-          </div>
-        </div>
+        <%else%>
+          <div class="card-body">レビューが投稿されていません</div>
+        <%end%>
       </div>
     </div>
   </div>
   <h3 class="mt-4">レビュー一覧</h3>
   <div class="card">
     <div class="card-body">
-      <% @reviews.each do |review|%>
-        <%if review.title.present?%>
-          <h4 class="card-title"><%=review.title%></h4>
-          <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
-          <dl class="row">
-            <dt class="col-sm-3">プレイ時間</dt>
-            <dd class="col-sm-9"><%= review.play_hour%></dd>
-            <dt class="col-sm-3">スコア</dt>
-            <dd class="col-sm-9"><%=review.score%></dd>
-            <dt class="col-sm-3">良い点</dt>
-            <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
-            <dt class="col-sm-3">悪い点</dt>
-            <dd class="col-sm-9"><%=review.bad_point_i18n%></dd>
-          </dl>
-          <h6>内容</h6>
-          <p class="card-text"><%=review.body%></p>
-        <%end%>
-      <% end %>
+      <%if @reviews_include_body.count != 0%>
+        <% @reviews_include_body.each do |review|%>
+          <%if review.title.present?%>
+            <h4 class="card-title"><%=review.title%></h4>
+            <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
+            <dl class="row">
+              <dt class="col-sm-3">プレイ時間</dt>
+              <dd class="col-sm-9"><%= review.play_hour%></dd>
+              <dt class="col-sm-3">スコア</dt>
+              <dd class="col-sm-9"><%=review.score%></dd>
+              <dt class="col-sm-3">良い点</dt>
+              <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
+              <dt class="col-sm-3">悪い点</dt>
+              <dd class="col-sm-9"><%=review.bad_point_i18n%></dd>
+            </dl>
+            <h6>内容</h6>
+            <p class="card-text"><%=review.body%></p>
+          <%end%>
+        <% end %>
+      <%else%>
+        <p>レビュー内容が投稿されていません</p>
+      <%end%>
     </div>
   </div>
   <h3 class="mt-4">良い点、悪い点の項目説明</h3>

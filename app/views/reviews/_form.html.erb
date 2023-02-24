@@ -36,7 +36,13 @@
 
     <div class="mb-3">
       <%= f.label :bad_point, { class: "form-label"} %>
-      <span class="badge bg-secondary">任意</span><%=link_to edit_game_review_path(@game,id:params[:id], anchor: 'good_point_explain') do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%><br>
+      <%if flag == 'edit'%>
+        <span class="badge bg-secondary">任意</span><%=link_to edit_game_review_path(@game,id:params[:id], anchor: 'good_point_explain') do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%><br>
+      <%elsif flag == 'new'%>
+        <span class="badge bg-secondary">任意</span><%=link_to new_game_review_path(@game,id:params[:id], anchor: 'good_point_explain') do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%><br>
+      <%else%>
+        <span class="badge bg-secondary">任意</span>
+      <%end%>
       <%= f.select :bad_point, Review.bad_points.keys.map{|k| [I18n.t("enums.review.bad_point.#{k}"), k] },  class: "form-select"  %>
     </div>
 

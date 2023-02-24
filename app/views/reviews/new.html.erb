@@ -2,5 +2,5 @@
 <%= render "shared/header" %>
 <h3>レビュー投稿</h3>
 <%= render partial: 'shared/error', locals: {model: @review}%>
-<%= render partial: 'form', locals: {game: @game, review: @review}%>
+<%= render partial: 'form', locals: {game: @game, review: @review, flag: 'new'}%>
 </body>
