@@ -2,37 +2,58 @@
 <%= render "/shared/header" %>
 
 <div class ="m-lg-4 m-2">
-  <h2><%= @game.title%></h2>
-  <dl class="row">
-      <dt class="col-sm-3">パブリッシャー</dt>
-      <dd class="col-sm-9"><%= @game.maker%></dd>
-      <dt class="col-sm-3">リリース日</dt>
-      <dd class="col-sm-9"><%=@game.release_date%></dd>
-      <dt class="col-sm-3">ハードウェア</dt>
-      <dd class="col-sm-9">
+  <div class="row">
+    <div class="col-lg-6">
+      <h2><%= @game.title%></h2>
+      <dl class="row">
+        <dt class="col-sm-3">パブリッシャー</dt>
+        <dd class="col-sm-9"><%= @game.maker%></dd>
+        <dt class="col-sm-3">リリース日</dt>
+        <dd class="col-sm-9"><%=@game.release_date%></dd>
+        <dt class="col-sm-3">ハードウェア</dt>
+        <dd class="col-sm-9">
           <% @hardwares.each do |hardware|%>
-              <p><%=hardware.name%></p>
+            <p><%=hardware.name%></p>
           <% end %>
-      </dd>
-      <dt class="col-sm-3">ジャンル</dt>
-      <dd class="col-sm-9">
+        </dd>
+        <dt class="col-sm-3">ジャンル</dt>
+        <dd class="col-sm-9">
           <% @genres.each do |genre|%>
-              <p><%=genre.name%></p>
+            <p><%=genre.name%></p>
           <% end %>
-      </dd>
-  </dl>
-
-  <%if !user_signed_in? or !@reviews.exists?(user_id: current_user.id)%>
-      <%=link_to 'レビュー投稿', new_game_review_path(@game), class:"btn btn-primary"%>
-  <%else%>
-      <%=link_to 'レビュー編集', edit_game_review_path(@game), class:"btn btn-primary"%>
-      <%review = @reviews.find_by(user_id: current_user.id)%>
-      <%=link_to 'レビュー削除', "#{@game.id}/reviews/#{review.id}", class:"btn btn-primary", data:{turbo_method: :delete, turbo_confirm: '本当によろしいですか?'}%>
-  <%end%>
-  <%=pie_chart @reviews.group(:good_point).count%>
-  <%=pie_chart @reviews.group(:bad_point).count%>
-  <p></p>
-  <h3>レビュー</h3>
+        </dd>
+      </dl>
+      <%if !user_signed_in? or !@reviews.exists?(user_id: current_user.id)%>
+        <%=link_to 'レビュー投稿', new_game_review_path(@game), class:"btn btn-primary"%>
+      <%else%>
+        <%=link_to 'レビュー編集', edit_game_review_path(@game), class:"btn btn-primary"%>
+        <%review = @reviews.find_by(user_id: current_user.id)%>
+        <%=link_to 'レビュー削除', "#{@game.id}/reviews/#{review.id}", class:"btn btn-primary", data:{turbo_method: :delete, turbo_confirm: '本当によろしいですか?'}%>
+      <%end%>
+    </div>
+    <div class="col-lg-5 mt-4 mt-lg-0">
+      <h3>レビューサマリー</h3>
+      <div class="card">
+        <div class="row">
+        <div class="col-4 position-relative">
+        <h4 class="mt-5 text-center">スコア</h4> 
+        <p class="bg-danger text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:6rem;height:6rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></p>
+        </div>
+          <div class="col-4">
+            <h4 class="text-center mt-1">良い点</h4>
+            <%=pie_chart @reviews.group(:good_point).count%>
+            <div class="mb-2"></div>
+          </div>
+          <div class="col-4">
+            <h4 class="text-center mt-1">悪い点</h4>
+            <%=pie_chart @reviews.group(:bad_point).count%>
+            <div class="mb-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3 class="mt-4">レビュー一覧</h3>
   <div class="card">
     <div class="card-body">
       <% @reviews.each do |review|%>
