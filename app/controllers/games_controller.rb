@@ -11,11 +11,23 @@ class GamesController < ApplicationController
         #@hardware = Hardware.where(game_id: @game)
         @genres = Genre.joins(:game_genres).where(game_genres: {game_id: @game})
         @reviews = Review.where(game_id: @game).includes(:user).order(created_at: :desc)
+        @score_color = score_color(@reviews)
         @reviews_good_graph = Review.where(game_id: @game).where.not(good_point: "not_defined")
         @reviews_bad_graph = Review.where(game_id: @game).where.not(bad_point: "not_defined")
     end
 
+    private
     def game_params
         params.require(:game).permit(hardware_ids: [])
+    end
+
+    def score_color(review)
+        if review.average(:score) >= 8
+            return "bg-success"
+          elseif review.average(:score) >= 4
+            return "bg-warning"
+          else
+            return "bg-danger"
+        end
     end
 end

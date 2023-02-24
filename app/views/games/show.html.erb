@@ -33,12 +33,19 @@
     </div>
     <div class="col-lg-5 mt-4 mt-lg-0">
       <h3>レビューサマリー</h3>
-      <div class="card">
+      <div class="card pe-2">
         <div class="row">
-        <div class="col-4 position-relative">
-        <h4 class="mt-5 text-center">スコア</h4> 
-        <p class="bg-danger text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:6rem;height:6rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></p>
-        </div>
+          <div class="col-4 position-relative">
+            <h4 class="mt-5 text-center">スコア</h4> 
+            <%#画面サイズがmd未満のとき%>
+            <div class="d-md-none">
+              <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:5rem;height:5rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+            </div>
+            <%#画面サイズがmd以上のとき%>
+            <div class="d-none d-md-block">
+              <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:10rem;height:10rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+            </div>
+          </div>
           <div class="col-4">
             <h4 class="text-center mt-1">良い点</h4>
             <%=pie_chart @reviews.group(:good_point).count%>
