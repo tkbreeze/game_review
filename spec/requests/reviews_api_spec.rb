@@ -72,6 +72,24 @@ RSpec.describe 'Reviews API', type: :request do
           }.to_not change(user.reviews, :count)
         end
       end
+      context "タイトルがあり、レビュー内容がない場合" do
+        it "レビューを追加できない" do
+          review_params = FactoryBot.attributes_for(:review, user:user, game:game, body:nil)
+          sign_in user
+          expect {
+            post game_reviews_path(game), params: {review: review_params}
+          }.to_not change(user.reviews, :count)
+        end
+      end
+      context "レビュー内容があり、タイトルがない場合" do
+        it "レビューを追加できない" do
+          review_params = FactoryBot.attributes_for(:review, user:user, game:game, title:nil)
+          sign_in user
+          expect {
+            post game_reviews_path(game), params: {review: review_params}
+          }.to_not change(user.reviews, :count)
+        end
+      end
     end
   end
   describe "#update" do
@@ -79,7 +97,7 @@ RSpec.describe 'Reviews API', type: :request do
       context "投稿したユーザーと同じ" do
         context "同じゲームの場合" do
           before do
-            @review = FactoryBot.create(:review, user:user, game:game, body:"Old")
+            @review = FactoryBot.create(:review, user:user, game:game, body:"Old", score:8)
           end
           context "適切な値の場合" do
             it "レビューを更新できる" do
@@ -95,6 +113,22 @@ RSpec.describe 'Reviews API', type: :request do
               review_params = FactoryBot.attributes_for(:review, :invalid, user:user, game:game, body:"New")
               patch game_review_path(game, id:@review.id), params: {review: review_params}
               expect(@review.reload.body).to eq "Old"
+            end
+          end
+          context "タイトルがあり、レビュー内容がない場合" do
+            it "レビューを更新できない" do
+              sign_in user
+              review_params = FactoryBot.attributes_for(:review, :invalid, user:user, game:game, body:nil, score:10)
+              patch game_review_path(game, id:@review.id), params: {review: review_params}
+              expect(@review.reload.score).to eq 8
+            end
+          end
+          context "レビュー内容があり、タイトルがない場合" do
+            it "レビューを更新できない" do
+              sign_in user
+              review_params = FactoryBot.attributes_for(:review, :invalid, user:user, game:game, title:nil, score:10)
+              patch game_review_path(game, id:@review.id), params: {review: review_params}
+              expect(@review.reload.score).to eq 8
             end
           end
         end

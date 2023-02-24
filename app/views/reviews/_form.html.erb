@@ -1,44 +1,83 @@
+<%#クエッションマーク%>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="question-circle" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+  </symbol>
+</svg>
+
 <h5><%=game.title%></h5>
 <%= form_with model: [game,review], local: true do |f| %>
 <div class="card">
   <div class="card-body">
     <div class="mb-3">
       <%= f.label :play_hour, { class: "form-label"} %>
+      <span class="badge bg-danger">必須</span>
       <%= f.number_field :play_hour, step:0.1,min:0.0, class: "form-control", placeholder: "0.1時間刻みで記入"  %>
-      <div class="form-text">必須</div>
     </div>
 
     <div class="mb-3">
       <%= f.label :score, { class: "form-label"} %>
+      <span class="badge bg-danger">必須</span>
       <%= f.number_field :score,in:0.0..10.0,step:0.1, class: "form-control", placeholder: "0.1点刻みで10点満点" %>
-      <div class="form-text">必須</div>
     </div>
 
     <div class="mb-3">
-      <%= f.label :good_point, { class: "form-label"} %><br>
+      <%= f.label :good_point, { class: "form-label"} %>
+      <%if flag == 'edit'%>
+        <span class="badge bg-secondary">任意</span><%=link_to edit_game_review_path(@game,id:params[:id], anchor: 'good_point_explain'),class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%><br>
+      <%elsif flag == 'new'%>
+        <span class="badge bg-secondary">任意</span><%=link_to new_game_review_path(@game,id:params[:id], anchor: 'good_point_explain'),class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%><br>
+      <%else%>
+        <span class="badge bg-secondary">任意</span>
+      <%end%>
       <%= f.select :good_point, Review.good_points.keys.map{|k| [I18n.t("enums.review.good_point.#{k}"), k] }, { class: "form-select" } %>
-      <div class="form-text">任意</div>
     </div>
 
     <div class="mb-3">
-      <%= f.label :bad_point, { class: "form-label"} %><br>
+      <%= f.label :bad_point, { class: "form-label"} %>
+      <%if flag == 'edit'%>
+        <span class="badge bg-secondary">任意</span><%=link_to edit_game_review_path(@game,id:params[:id], anchor: 'good_point_explain'),class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%><br>
+      <%elsif flag == 'new'%>
+        <span class="badge bg-secondary">任意</span><%=link_to new_game_review_path(@game,id:params[:id], anchor: 'good_point_explain'),class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%><br>
+      <%else%>
+        <span class="badge bg-secondary">任意</span>
+      <%end%>
       <%= f.select :bad_point, Review.bad_points.keys.map{|k| [I18n.t("enums.review.bad_point.#{k}"), k] },  class: "form-select"  %>
-      <div class="form-text">任意</div>
     </div>
 
     <div class="mb-3">
       <%= f.label :title, { class: "form-label"} %>
+      <span class="badge bg-secondary">任意</span>
       <%= f.text_field :title, class: "form-control"%>
-      <div class="form-text">任意</div>
+      <div class="form-text">レビュー内容がある場合は、必須です</div>
     </div>
 
     <div class="mb-3">
       <%= f.label :body, { class: "form-label"} %>
+      <span class="badge bg-secondary">任意</span>
       <%= f.text_area :body, size: "70x5" ,class: "form-control"%>
-      <div class="form-text">任意</div>
+      <div class="form-text">タイトルがある場合は、必須です</div>
     </div>
     <%= f.submit "送信", class: "btn btn-primary" %>
-
   </div>
 </div>
 <% end %>
+
+<h3 class="mt-4">良い点、悪い点の項目説明</h3>
+  <div class="card" id="good_point_explain">
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">ゲーム性</dt>
+        <dd class="col-sm-9">遊びやすさ、育成内容、操作性など</dd>
+        <dt class="col-sm-3">グラフィック</dt>
+        <dd class="col-sm-9">キャラクター、背景、エフェクトなど</dd>
+        <dt class="col-sm-3">世界観</dt>
+        <dd class="col-sm-9">ストーリー、設計構築、独自性など</dd>
+        <dt class="col-sm-3">コンテンツ</dt>
+        <dd class="col-sm-9">量、質など</dd>
+        <dt class="col-sm-3">BGM</dt>
+        <dd class="col-sm-9">SE、戦闘中BGM、フィールド上BGMなど</dd>
+      </dl>
+    </div>
+  </div>

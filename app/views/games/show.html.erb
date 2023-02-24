@@ -1,57 +1,119 @@
 <body>
 <%= render "/shared/header" %>
 
+<%#クエッションマーク%>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="question-circle" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+  </symbol>
+</svg>
+
 <div class ="m-lg-4 m-2">
-  <h2><%= @game.title%></h2>
-  <dl class="row">
-      <dt class="col-sm-3">パブリッシャー</dt>
-      <dd class="col-sm-9"><%= @game.maker%></dd>
-      <dt class="col-sm-3">リリース日</dt>
-      <dd class="col-sm-9"><%=@game.release_date%></dd>
-      <dt class="col-sm-3">ハードウェア</dt>
-      <dd class="col-sm-9">
+  <div class="row">
+    <div class="col-lg-6">
+      <h2><%= @game.title%></h2>
+      <dl class="row">
+        <dt class="col-sm-3">パブリッシャー</dt>
+        <dd class="col-sm-9"><%= @game.maker%></dd>
+        <dt class="col-sm-3">リリース日</dt>
+        <dd class="col-sm-9"><%=@game.release_date%></dd>
+        <dt class="col-sm-3">ハードウェア</dt>
+        <dd class="col-sm-9">
           <% @hardwares.each do |hardware|%>
-              <p><%=hardware.name%></p>
+            <p><%=hardware.name%></p>
           <% end %>
-      </dd>
-      <dt class="col-sm-3">ジャンル</dt>
-      <dd class="col-sm-9">
+        </dd>
+        <dt class="col-sm-3">ジャンル</dt>
+        <dd class="col-sm-9">
           <% @genres.each do |genre|%>
-              <p><%=genre.name%></p>
+            <p><%=genre.name%></p>
           <% end %>
-      </dd>
-  </dl>
-
-  <%if !user_signed_in? or !@reviews.exists?(user_id: current_user.id)%>
-      <%=link_to 'レビュー投稿', new_game_review_path(@game), class:"btn btn-primary"%>
-  <%else%>
-      <%=link_to 'レビュー編集', edit_game_review_path(@game), class:"btn btn-primary"%>
-      <%review = @reviews.find_by(user_id: current_user.id)%>
-      <%=link_to 'レビュー削除', "#{@game.id}/reviews/#{review.id}", class:"btn btn-primary", data:{turbo_method: :delete, turbo_confirm: '本当によろしいですか?'}%>
-  <%end%>
-
-  <p></p>
-  <h3>レビュー</h3>
+        </dd>
+      </dl>
+      <%if !user_signed_in? or !@reviews.exists?(user_id: current_user.id)%>
+        <%=link_to 'レビュー投稿', new_game_review_path(@game), class:"btn btn-primary"%>
+      <%else%>
+        <%=link_to 'レビュー編集', edit_game_review_path(@game), class:"btn btn-primary"%>
+        <%review = @reviews.find_by(user_id: current_user.id)%>
+        <%=link_to 'レビュー削除', "#{@game.id}/reviews/#{review.id}", class:"btn btn-primary", data:{turbo_method: :delete, turbo_confirm: '本当によろしいですか?'}%>
+      <%end%>
+    </div>
+    <div class="col-lg-5 mt-4 mt-lg-0">
+      <h3>レビューサマリー</h3>
+      <div class="card pe-2">
+        <%if @reviews.count != 0%>
+          <div class="row">
+            <div class="col-4 position-relative">
+              <h4 class="mt-5 text-center">スコア</h4> 
+              <%#画面サイズがmd未満のとき%>
+              <div class="d-md-none">
+                <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:5rem;height:5rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+              </div>
+              <%#画面サイズがmd以上のとき%>
+              <div class="d-none d-md-block">
+                <h3 class="<%=@score_color%> text-white rounded-circle position-relative position-absolute top-50 start-50 translate-middle" style="width:10rem;height:10rem;"><span class="position-absolute top-50 start-50 translate-middle text-nowrap"><%=@reviews.average(:score)%></span></h3>
+              </div>
+            </div>
+            <div class="col-4">
+              <h4 class="text-center mt-1">良い点<%=link_to game_path(@game, anchor: 'good_point_explain'),class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
+              <%=pie_chart @reviews.group(:good_point).count%>
+              <div class="mb-2"></div>
+            </div>
+            <div class="col-4">
+              <h4 class="text-center mt-1">悪い点<%=link_to game_path(@game, anchor: 'good_point_explain'), class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
+              <%=pie_chart @reviews.group(:bad_point).count%>
+              <div class="mb-2"></div>
+            </div>
+          </div>
+        <%else%>
+          <div class="card-body">レビューが投稿されていません</div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+  <h3 class="mt-4">レビュー一覧</h3>
   <div class="card">
     <div class="card-body">
-      <% @reviews.each do |review|%>
-        <%if review.title.present?%>
-          <h4 class="card-title"><%=review.title%></h4>
-        <%end%>
-        <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
-        <dl class="row">
-          <dt class="col-sm-3">プレイ時間</dt>
-          <dd class="col-sm-9"><%= review.play_hour%></dd>
-          <dt class="col-sm-3">スコア</dt>
-          <dd class="col-sm-9"><%=review.score%></dd>
-          <dt class="col-sm-3">良い点</dt>
-          <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
-          <dt class="col-sm-3">悪い点</dt>
-          <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
-        </dl>
-        <h6>内容</h6>
-        <p class="card-text"><%=review.body%></p>
-      <% end %>
+      <%if @reviews_include_body.count != 0%>
+        <% @reviews_include_body.each do |review|%>
+          <%if review.title.present?%>
+            <h4 class="card-title"><%=review.title%></h4>
+            <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
+            <dl class="row">
+              <dt class="col-sm-3">プレイ時間</dt>
+              <dd class="col-sm-9"><%= review.play_hour%></dd>
+              <dt class="col-sm-3">スコア</dt>
+              <dd class="col-sm-9"><%=review.score%></dd>
+              <dt class="col-sm-3">良い点</dt>
+              <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
+              <dt class="col-sm-3">悪い点</dt>
+              <dd class="col-sm-9"><%=review.bad_point_i18n%></dd>
+            </dl>
+            <h6>内容</h6>
+            <p class="card-text"><%=review.body%></p>
+          <%end%>
+        <% end %>
+      <%else%>
+        <p>レビュー内容が投稿されていません</p>
+      <%end%>
+    </div>
+  </div>
+  <h3 class="mt-4">良い点、悪い点の項目説明</h3>
+  <div class="card" id="good_point_explain">
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">ゲーム性</dt>
+        <dd class="col-sm-9">遊びやすさ、育成内容、操作性など</dd>
+        <dt class="col-sm-3">グラフィック</dt>
+        <dd class="col-sm-9">キャラクター、背景、エフェクトなど</dd>
+        <dt class="col-sm-3">世界観</dt>
+        <dd class="col-sm-9">ストーリー、設計構築、独自性など</dd>
+        <dt class="col-sm-3">コンテンツ</dt>
+        <dd class="col-sm-9">量、質など</dd>
+        <dt class="col-sm-3">BGM</dt>
+        <dd class="col-sm-9">SE、戦闘中BGM、フィールド上BGMなど</dd>
+      </dl>
     </div>
   </div>
 </div>
