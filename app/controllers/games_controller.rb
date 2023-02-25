@@ -13,8 +13,8 @@ class GamesController < ApplicationController
         @reviews = Review.where(game_id: @game).includes(:user).order(created_at: :desc)
         @reviews_include_body = Review.where(game_id: @game).where.not(title: '').includes(:user).order(created_at: :desc)
         @score_color = score_color(@reviews)
-        @reviews_good_graph = Review.where(game_id: @game).where.not(good_point: "not_defined")
-        @reviews_bad_graph = Review.where(game_id: @game).where.not(bad_point: "not_defined")
+        @reviews_good_graph = Review.where(game_id: @game).where.not(good_point: 0)
+        @reviews_bad_graph = Review.where(game_id: @game).where.not(bad_point: 0)
     end
 
     private

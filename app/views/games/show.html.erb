@@ -57,12 +57,12 @@
             </div>
             <div class="col-4">
               <h4 class="text-center mt-1">良い点<%=link_to game_path(@game, anchor: 'good_point_explain'),class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
-              <%=pie_chart @reviews.group(:good_point).count%>
+              <%=pie_chart @reviews_good_graph.group(:good_point).count%>
               <div class="mb-2"></div>
             </div>
             <div class="col-4">
               <h4 class="text-center mt-1">悪い点<%=link_to game_path(@game, anchor: 'good_point_explain'), class:"d-inline-block",'data-bs-toggle': :"tooltip", 'data-bs-placement': :"right", 'title': :"項目の詳細へ" do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20"><use xlink:href="#question-circle"/></svg><%end%></h4>
-              <%=pie_chart @reviews.group(:bad_point).count%>
+              <%=pie_chart @reviews_bad_graph.group(:bad_point).count%>
               <div class="mb-2"></div>
             </div>
           </div>
