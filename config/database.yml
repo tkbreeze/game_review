@@ -22,7 +22,7 @@ test:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: game_review_production
   username: root
   password: <%= ENV['DATABASE_PASSWORD'] %>
   socket: /var/lib/mysql/mysql.sock
