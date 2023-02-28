@@ -34,8 +34,9 @@ RSpec.describe "Reviews", type: :system do
 
               aggregate_failures do
                   expect(page).to have_content "test_game_title"
+                  expect(page).to have_content "レビュー内容が投稿されていません"
                   expect(page).to_not have_content "プレイ時間"
-                  expect(page).to_not have_content "スコア"
+                  expect(page).to_not have_content "レビューが投稿されていません"
               end
           }.to change(user.reviews, :count).by(1)
         end
@@ -121,8 +122,10 @@ RSpec.describe "Reviews", type: :system do
               find('#test_game_title').click
               click_link "レビュー編集"
               edit_review(score: 10.0, title:nil, body:nil)
+              expect(page).to have_content "レビュー内容が投稿されていません"
+              expect(page).to have_content "スコア"
+              expect(page).to_not have_content "レビューが投稿されていません"
               expect(page).to_not have_content "プレイ時間"
-              expect(page).to_not have_content "スコア"
               expect(review.reload.score).to eq 10.0
             end
           end
