@@ -14,6 +14,7 @@ module GameReview
     config.i18n.default_locale = :ja
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.time_zone = 'Tokyo'
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| %(<span class="field_with_errors">#{html_tag}</span>).html_safe }
 
     # Configuration for the application, engines, and railties goes here.
     #

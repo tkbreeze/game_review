@@ -8,3 +8,9 @@
     color: black;
     font-size: 50px;
 }
+.field_with_errors {
+    //display: contents;
+    input,textarea {
+      @extend .is-invalid;
+    }
+}
