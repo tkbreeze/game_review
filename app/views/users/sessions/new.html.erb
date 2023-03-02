@@ -1,5 +1,6 @@
+<%= render "shared/flash"%>
 <body class="text-center user">
-  <main class="form-signin w-100 m-auto">
+  <main class="form-signin w-100 m-auto card">
     <%=link_to "Game Review",root_path,class:"nav-title"%>
     <%= form_with model: @user, url: session_path(resource_name), local: true do |f| %>
       <h1 class="h3 mb-3 fw-normal">ログイン</h1>

@@ -1,7 +1,6 @@
-    <%= render "users/shared/error_messages", resource: resource%>
-<body class="text-center user">
-  
-  <main class="form-signin w-100 m-auto">
+<%= render "users/shared/error_messages", resource: resource%>
+<body class="text-center user">  
+  <main class="form-signin w-100 m-auto card">
     <%=link_to "Game Review",root_path,class:"nav-title"%>
     <h1 class="h3 mb-3 fw-normal">アカウント登録</h1>
     <%= form_with model: @user, url: registration_path(resource_name), local: true do |f| %>
