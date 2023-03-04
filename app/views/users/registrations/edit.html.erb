@@ -42,7 +42,7 @@
     <h3>アカウント削除</h3>
   </div>
 
-  <p>よろしいですか? <%= button_to "アカウント削除", registration_path(resource_name), data: { confirm: "本当によろしいですか?" }, data: { turbo_method: :delete},class:"btn btn-primary" %></p>
+  <p>よろしいですか? <%= button_to "アカウント削除", registration_path(resource_name), data: { confirm: "本当によろしいですか?",turbo_confirm: "本当によろしいですか?" },  method: :delete,class:"btn btn-primary" %></p>
 
   <%= link_to "戻る", :back %>
 </div>
