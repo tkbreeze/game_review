@@ -78,6 +78,7 @@
       <%if @reviews_include_body.count != 0%>
         <% @reviews_include_body.each do |review|%>
           <%if review.title.present?%>
+            <h5 class="card-text"><%=link_to review.user.name, users_show_path(user_id:review.user_id), class:"link_no_underline"%></h5>
             <h4 class="card-title"><%=review.title%></h4>
             <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
             <dl class="row">
