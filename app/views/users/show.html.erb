@@ -6,6 +6,8 @@
     <div class = "card-body">
       <dt class="col-sm-3">メールアドレス</dt>
       <dd class="col-sm-9"><%=@user.email%></dd>
+      <dt class="col-sm-3">名前</dt>
+      <dd class="col-sm-9"><%=@user.name%></dd>
       <h4>投稿したレビュー</h4>
       <%if @reviews.count != 0%>
         <% @reviews.each do |review|%>
