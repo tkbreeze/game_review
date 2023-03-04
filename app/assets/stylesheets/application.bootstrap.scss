@@ -1,9 +1,20 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap');
+@import 'sign-in.scss';
 .nav-title{
     font-family: 'Playfair Display', serif;
     text-decoration:none;
     color: black;
     font-size: 50px;
+}
+.field_with_errors {
+    //display: contents;
+    input,textarea {
+      @extend .is-invalid;
+    }
+}
+.link_no_underline{
+  text-decoration:none;
+  color: black;
 }

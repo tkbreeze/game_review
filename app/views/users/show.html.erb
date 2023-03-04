@@ -1,0 +1,54 @@
+<%= render "shared/header"%>
+
+<div class="m-3">
+  <h3>アカウント詳細</h3>
+  <div class = "card">
+    <div class = "card-body">
+      <%if @flag == true%>
+        <dt class="col-sm-3">メールアドレス</dt>
+        <dd class="col-sm-9"><%=@user.email%></dd>
+      <%end%>
+      <dt class="col-sm-3">名前</dt>
+      <dd class="col-sm-9"><%=@user.name%></dd>
+      <h4>投稿したレビュー</h4>
+      <%if @reviews.count != 0%>
+        <% @reviews.each do |review|%>
+          <div class = "card mb-3 mx-2">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-10">
+                  <%if review.title.present?%>
+                    <h4 class="card-title"><%=review.title%></h4>
+                  <%end%>
+                  <dl class="row">
+                    <dt class="col-sm-3">ゲームタイトル</dt>
+                    <dd class="col-sm-9"><%=review.game.title%></dd>
+                    <dt class="col-sm-3">プレイ時間</dt>
+                    <dd class="col-sm-9"><%= review.play_hour%></dd>
+                    <dt class="col-sm-3">スコア</dt>
+                    <dd class="col-sm-9"><%=review.score%></dd>
+                    <dt class="col-sm-3">良い点</dt>
+                    <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
+                    <dt class="col-sm-3">悪い点</dt>
+                    <dd class="col-sm-9"><%=review.bad_point_i18n%></dd>
+                  </dl>
+                </div>
+                <div class="col-lg-1 d-none d-lg-block">
+                  <%=image_tag review.game_id.to_s+'.jpg', class:"img-fluid"%>
+                </div>
+              </div>
+              <%if review.title.present?%>
+                <h6>内容</h6>
+                <p class="card-text"><%=review.body%></p>
+              <%end%>
+            </div>
+          </div>
+        <%end%>
+      <%else%>
+        <div class="card">
+          <p class="card-body">レビューが投稿されていません</p>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>
