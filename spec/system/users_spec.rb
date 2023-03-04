@@ -52,7 +52,7 @@ RSpec.describe "Users", type: :system do
             expect(page).to_not have_content "アカウント編集"
           end
         }.to_not change(User, :count)
-        expect(user.name).eq 'New'
+        expect(user.reload.name).to eq 'New'
       end
     end
     context "不適切な値の場合" do
@@ -70,7 +70,7 @@ RSpec.describe "Users", type: :system do
             expect(page).to have_content "アカウント編集"
           end
         }.to_not change(User, :count)
-        expect(user.name).eq 'Old'
+        expect(user.reload.name).to eq 'Old'
       end
     end
   end
