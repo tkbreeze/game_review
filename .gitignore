@@ -41,3 +41,6 @@
 
 #CarrierwaveのアップロードをGitHubに上げない
 /public/uploads
+
+#identifier拡張子をGitHubにあげない
+*.Identifier
