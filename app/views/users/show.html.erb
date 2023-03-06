@@ -1,8 +1,16 @@
 <%= render "shared/header"%>
 
 <div class="m-3">
-  <h3>アカウント詳細</h3>
-  <div class = "card">
+  <h3 class="mb-3">アカウント詳細</h3>
+  <div class ="d-flex flex-row">
+    <%if @user.avatar.present?%>
+      <%=image_tag @user.avatar_url(:thumb), class:"rounded-circle"%>
+    <%else%>
+      <%=image_tag "thumb_default.jpg", class:"rounded-circle"%>
+    <%end%>
+    <h4 class="align-self-center ms-1"><%=@user.name%></h4>
+  </div>
+  <div class = "card mt-1">
     <div class = "card-body">
       <%if @flag == true%>
         <dt class="col-sm-3">メールアドレス</dt>

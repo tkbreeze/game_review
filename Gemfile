@@ -60,6 +60,9 @@ gem 'pry-rails'
 #円グラフ作成
 gem 'chartkick'
 
+#画像アップロード
+gem 'carrierwave'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
