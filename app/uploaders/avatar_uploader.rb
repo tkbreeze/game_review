@@ -39,6 +39,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [50,50,"Center"]
   end
 
+  version :thumb40 do
+    process :resize_to_fill => [40,40,"Center"]
+  end
+
   # Add an allowlist of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   # def extension_allowlist

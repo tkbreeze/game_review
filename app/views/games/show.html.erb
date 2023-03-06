@@ -78,14 +78,36 @@
       <%if @reviews_include_body.count != 0%>
         <% @reviews_include_body.each do |review|%>
           <%if review.title.present?%>
-            <h5 class="card-text"><%=link_to review.user.name, users_show_path(user_id:review.user_id), class:"link_no_underline"%></h5>
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <%if review.user.avatar.present?%>
+                  <%=image_tag review.user.avatar_url(:thumb40), class:"rounded-circle"%>
+                <%else%>
+                  <%=image_tag "thumb40_default.jpg", class:"rounded-circle"%>
+                <%end%>
+              </div>
+              <div class="flex-grow-1 ms-3 mt-0">
+                <div class="user_name_text fw-bold mb-0 mt-0"><%=link_to review.user.name, users_show_path(user_id:review.user_id), class:"link_no_underline"%></div>
+                <div class="time_text mt-0 mb-0"><%=review.created_at.to_s(:datetime_jp)%>にレビュー済み</div>
+              </div>
+            </div>
             <h4 class="card-title"><%=review.title%></h4>
             <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
             <dl class="row">
+              <dt class="col-sm-3">スコア</dt>
+              <dd class="col-sm-9">
+                <%if review.score >= 8%>
+                  <div class="text-success fw-bold">
+                <%elsif review.score >=4%>
+                  <div class="text-warning fw-bold">
+                <%else%>
+                  <div class="text-danger fw-bold">
+                <%end%>
+                <%=review.score%>
+                </div>
+              </dd>
               <dt class="col-sm-3">プレイ時間</dt>
               <dd class="col-sm-9"><%= review.play_hour%></dd>
-              <dt class="col-sm-3">スコア</dt>
-              <dd class="col-sm-9"><%=review.score%></dd>
               <dt class="col-sm-3">良い点</dt>
               <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
               <dt class="col-sm-3">悪い点</dt>
