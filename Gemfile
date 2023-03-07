@@ -63,6 +63,9 @@ gem 'chartkick'
 #画像アップロード
 gem 'carrierwave'
 
+#S3への画像アップロード
+gem 'fog-aws'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
