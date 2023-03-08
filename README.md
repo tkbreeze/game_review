@@ -2,7 +2,7 @@
 
 公開先URL: [www.game-review-aggregator.net](https://www.game-review-aggregator.net)
 
-##### 本アプリの概要
+#### 本アプリの概要
 ゲームレビューを投稿するWebアプリケーションを、Railsを使用し、作りました。
 
 私は、ゲームが趣味で、自分の好きなゲームにレビューを書くことや他の人のレビュを見ることが好きなのですが、海外ではレビュー投稿サイトとしてMetaScoreがあるのですが、日本では、あまりそのようなサイトがないため、作成しました。
@@ -26,6 +26,14 @@
 * Amazon SESによるメール送信
 
 ## スクリーンショット
-![Home画面](https://user-images.githubusercontent.com/120573270/223736774-84232e2b-5576-45e0-afb2-438cc9a5b586.png "Home画面")
+![Home画面](https://user-images.githubusercontent.com/120573270/223739992-db0a280c-fb04-4911-9392-f6b747042f2d.png "Home画面")
+
+Home画面
+
 ![ゲーム詳細ページ](https://user-images.githubusercontent.com/120573270/223737643-350555bc-dfdf-4dc7-83ec-5e0419d069aa.png "ゲーム詳細ページ")
+
+ゲーム詳細ページ
+
 ![アカウント詳細ページ](https://user-images.githubusercontent.com/120573270/223738603-4557cd30-5535-46db-baf1-e060eaba1f7f.png "アカウント詳細ページ")
+
+アカウント詳細ページ
