@@ -62,7 +62,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "game_review_production"
 
-  config.action_mailer.perform_caching = false
+  #config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -90,4 +90,17 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  credentials = Aws::Credentials.new(ENV['AWS_ACCESS_SES_KEY_ID'], ENV['AWS_SECRET_ACCESS_SES_KEY'])
+  Aws::Rails.add_action_mailer_delivery_method(
+    :ses, 
+    credentials:, 
+    region: 'ap-northeast-1'
+  )
+
+  config.action_mailer.default_url_options = { host: 'www.game-review-aggregator.net' }
+  config.action_mailer.delivery_method = :ses
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.perform_caching = false
+  config.action_mailer.raise_delivery_errors = true
 end
