@@ -66,6 +66,12 @@ gem 'carrierwave'
 #S3への画像アップロード
 gem 'fog-aws'
 
+#環境変数
+gem 'dotenv-rails'
+
+#SES(メール送信)
+gem 'aws-sdk-rails'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
