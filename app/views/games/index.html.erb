@@ -1,3 +1,10 @@
+<%content_for :page_title do%>
+  <%if params[:name].present?%>
+    <%=Hardware.find(params[:name].to_i).name%>
+  <%else%>
+    Home
+  <%end%>
+<%end%>
 <body>
 <%= render "shared/header" %>
 <p></p>
