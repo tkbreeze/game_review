@@ -7,4 +7,8 @@ class User < ApplicationRecord
   has_many :likes
   validates :name, presence: true
   mount_uploader :avatar, AvatarUploader
+
+  def liked_by?(review_id)
+    likes.where(review_id: review_id).exists?
+  end
 end
