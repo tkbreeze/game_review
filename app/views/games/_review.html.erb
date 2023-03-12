@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <%#いいねマーク%>
+  <symbol id="bi bi-heart" viewBox="0 0 16 16">
+    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+  </symbol>
+</svg>
+<%if review.title.present?%>
+  <div class="d-flex">
+    <div class="flex-shrink-0">
+      <%if review.user.avatar.present?%>
+        <%=image_tag review.user.avatar_url(:thumb40), class:"rounded-circle"%>
+      <%else%>
+        <%=image_tag "thumb40_default.jpg", class:"rounded-circle"%>
+      <%end%>
+    </div>
+    <div class="ms-3 mt-0">
+      <div class="user_name_text fw-bold mb-0 mt-0"><%=link_to review.user.name, users_show_path(user_id:review.user_id), class:"link_no_underline"%></div>
+      <div class="time_text mt-0 mb-0"><%=review.created_at.to_fs(:datetime_jp)%>にレビュー済み</div>
+    </div>
+    <div class="ms-3">
+      <%if !user_signed_in? or !current_user.liked_by?(review.id)%>
+        <%=link_to create_like_path(review),class:"like-link", turbo_method: :POST, remote: true do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20" fill="currentColor"><use xlink:href="#bi bi-heart"/></svg><%end%>
+      <%else%>
+        <%=link_to destroy_like_path(review),class:"dis-like-link", turbo_method: :DELETE, remote: true do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20" fill="pink"><use xlink:href="#bi bi-heart"/></svg><%end%>
+      <%end%>
+    </div>
+  </div>
+  <h4 class="card-title"><%=review.title%></h4>
+  <%#<h6 class="card-subtitle mb-2 text-muted"><%=review.user_id></h6>%>
+  <dl class="row">
+    <dt class="col-sm-3">スコア</dt>
+    <dd class="col-sm-9">
+      <%if review.score >= 8%>
+        <div class="text-success fw-bold">
+      <%elsif review.score >=4%>
+        <div class="text-warning fw-bold">
+      <%else%>
+        <div class="text-danger fw-bold">
+      <%end%>
+      <%=review.score%>
+      </div>
+    </dd>
+    <dt class="col-sm-3">プレイ時間</dt>
+    <dd class="col-sm-9"><%= review.play_hour%></dd>
+    <dt class="col-sm-3">良い点</dt>
+    <dd class="col-sm-9"><%=review.good_point_i18n%></dd>
+    <dt class="col-sm-3">悪い点</dt>
+    <dd class="col-sm-9"><%=review.bad_point_i18n%></dd>
+  </dl>
+  <h6>内容</h6>
+  <p class="card-text"><%=review.body%></p>
+<%end%>
