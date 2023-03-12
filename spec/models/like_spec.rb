@@ -15,12 +15,12 @@ RSpec.describe Like, type: :model do
   it "userがなければ、有効な状態でないこと" do
     like = FactoryBot.build(:like, user:nil)
     like.valid?
-    expect(like).to be_valid
+    expect(like.errors[:user]).to include("を入力してください")
   end
   it "gameがなければ、有効な状態でないこと" do
     like = FactoryBot.build(:like, review:nil)
     like.valid?
-    expect(like).to be_valid
+    expect(like.errors[:review]).to include("を入力してください")
   end
   it "userとgameにつき2つ以上のいいねはつかない" do
     like = FactoryBot.create(:like,user:user,review:review)

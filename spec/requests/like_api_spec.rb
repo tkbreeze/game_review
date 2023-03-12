@@ -60,7 +60,7 @@ RSpec.describe 'Likes API', type: :request do
         end
       end
       context "いいねをしていないレビューの場合" do
-        let!(:other_review1) {FactoryBot.create(:like, game:game)}
+        let!(:other_review1) {FactoryBot.create(:review, game:game)}
         it "いいねができない" do
           sign_in user
           expect{
