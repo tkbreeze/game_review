@@ -78,7 +78,9 @@
     <div class="card-body">
       <%if @reviews_include_body.count != 0%>
         <% @reviews_include_body.each do |review|%>
-          <%= render 'review', review: review%>
+          <div id="review_<%=review.id%>">
+            <%= render 'review', review: review%>
+          </div>
         <% end %>
       <%else%>
         <p>レビュー内容が投稿されていません</p>
