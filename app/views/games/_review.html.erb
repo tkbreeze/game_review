@@ -17,11 +17,11 @@
       <div class="user_name_text fw-bold mb-0 mt-0"><%=link_to review.user.name, users_show_path(user_id:review.user_id), class:"link_no_underline"%></div>
       <div class="time_text mt-0 mb-0"><%=review.created_at.to_fs(:datetime_jp)%>にレビュー済み</div>
     </div>
-    <div class="ms-3">
+    <div class="ms-4">
       <%if !user_signed_in? or !current_user.liked_by?(review.id)%>
-        <%=link_to create_like_path(review),class:"like-link", data:{turbo_method: :POST}, remote: true do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20" fill="currentColor"><use xlink:href="#bi bi-heart"/></svg><%end%>
+        <%=link_to create_like_path(review),class:"like-link", data:{turbo_method: :POST}, remote: true do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20" fill="gray"><use xlink:href="#bi bi-heart"/></svg><%end%>
       <%else%>
-        <%=link_to destroy_like_path(review),class:"dis-like-link", data:{turbo_method: :DELETE}, remote: true do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20" fill="pink"><use xlink:href="#bi bi-heart"/></svg><%end%>
+        <%=link_to destroy_like_path(review),class:"dis-like-link", data:{turbo_method: :DELETE}, remote: true do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20" fill="red"><use xlink:href="#bi bi-heart"/></svg><%end%>
       <%end%>
     </div>
     <div class ="ms-2">
