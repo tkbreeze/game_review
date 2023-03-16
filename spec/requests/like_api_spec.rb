@@ -6,7 +6,7 @@ RSpec.describe 'Likes API', type: :request do
   let(:game) {FactoryBot.create(:game)}
   let(:other_game) {FactoryBot.create(:game)}
   let!(:review) {FactoryBot.create(:review, user:other_user, game:game)}
-  let(:other_review) {FactoryBot.create(:review, user:user, game:game)}
+  let!(:other_review) {FactoryBot.create(:review, user:user, game:game)}
   describe "#create" do
     context "サインインしている場合" do
       context "違う人のレビュにいいねをした場合" do
@@ -32,10 +32,10 @@ RSpec.describe 'Likes API', type: :request do
       end
       context "自分のレビューにいいねをした場合" do
         it "いいねができない" do
-          like_params = FactoryBot.attributes_for(:review, user:user, review:other_review)
+          #like_params = FactoryBot.attributes_for(:like, user:user, review:other_review)
           sign_in user
           expect{
-            post create_like_path(review), params: {like: like_params}, xhr:true
+            post create_like_path(other_review), xhr:true
           }.to_not change(user.reload.likes,:count)
         end
       end
