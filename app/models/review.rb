@@ -1,6 +1,7 @@
 class Review < ApplicationRecord
   belongs_to :game
   belongs_to :user
+  has_many :likes
   enum good_point: {not_defined: 0, nothing: 1, game_property: 2, graphic: 3, world: 4, contents: 5, BGM: 6}, _prefix: true
   enum bad_point: {not_defined: 0, nothing: 1, game_property: 2, graphic: 3, world: 4, contents: 5, BGM: 6}, _prefix: true
   #一意性制約

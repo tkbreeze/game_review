@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   resources :games, only: [:index, :show] do
     resources :reviews
   end
+  post 'like/:id' => 'likes#create', as: 'create_like'
+  delete 'like/:id' => 'likes#destroy', as: 'destroy_like'
 end

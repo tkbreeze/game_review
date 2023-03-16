@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_05_131246) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_12_102647) do
   create_table "game_genres", force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "genre_id", null: false
@@ -49,6 +49,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_131246) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.integer "review_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_likes_on_review_id"
+    t.index ["user_id", "review_id"], name: "index_likes_on_user_id_and_review_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "user_id", null: false
@@ -84,6 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_131246) do
   add_foreign_key "game_genres", "genres"
   add_foreign_key "game_hardwares", "games"
   add_foreign_key "game_hardwares", "hardwares"
+  add_foreign_key "likes", "reviews"
+  add_foreign_key "likes", "users"
   add_foreign_key "reviews", "games"
   add_foreign_key "reviews", "users"
 end
