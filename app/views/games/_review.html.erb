@@ -24,7 +24,7 @@
         <%=link_to destroy_like_path(review),class:"dis-like-link", data:{turbo_method: :DELETE}, remote: true do%><svg class="bi flex-shrink-0 ms-2" width="20" height="20" fill="red"><use xlink:href="#bi bi-heart"/></svg><%end%>
       <%end%>
     </div>
-    <div class ="ms-2">
+    <div class ="ms-2" id = "like_count">
       <%=review.likes.count%>
     </div>
   </div>

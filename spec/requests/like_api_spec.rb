@@ -5,18 +5,18 @@ RSpec.describe 'Likes API', type: :request do
   let(:other_user) {FactoryBot.create(:user)}
   let(:game) {FactoryBot.create(:game)}
   let(:other_game) {FactoryBot.create(:game)}
-  let(:review) {FactoryBot.create(:review, user:other_user, game:game)}
+  let!(:review) {FactoryBot.create(:review, user:other_user, game:game)}
   let(:other_review) {FactoryBot.create(:review, user:user, game:game)}
   describe "#create" do
     context "サインインしている場合" do
       context "違う人のレビュにいいねをした場合" do
         context "まだいいねをそのレビューにしていない場合" do
           it "いいねができる" do
-            like_params = FactoryBot.attributes_for(:like, user:user, review:review)
+            #like_params = FactoryBot.attributes_for(:like, user:user, review:review)
             sign_in user
             expect{
-              post like_path(review), params: {like: like_params}, xhr:true
-            }.to change(user.likes, :count).by(1)
+              post create_like_path(review), xhr:true
+            }.to change(user.reload.likes, :count).by(1)
           end
         end
         context "いいねをそのレビューにすでにしている場合" do
@@ -25,8 +25,8 @@ RSpec.describe 'Likes API', type: :request do
             like_params = FactoryBot.attributes_for(:like, user:user, review:review)
             sign_in user
             expect{
-              post like_path(review), params: {like: like_params}, xhr:true
-            }.to_not change(user.likes, :count)
+              post create_like_path(review), params: {like: like_params}, xhr:true
+            }.to_not change(user.reload.likes, :count)
           end
         end
       end
@@ -35,16 +35,16 @@ RSpec.describe 'Likes API', type: :request do
           like_params = FactoryBot.attributes_for(:review, user:user, review:other_review)
           sign_in user
           expect{
-            post like_path(review), params: {like: like_params}, xhr:true
-          }.to_not change(user.likes,:count)
+            post create_like_path(review), params: {like: like_params}, xhr:true
+          }.to_not change(user.reload.likes,:count)
         end
       end
     end
     context "サインインしていない場合" do
       it "サインイン画面へ遷移" do
         like_params = FactoryBot.attributes_for(:like, user:user, review:review)
-        post like_path(review), params: {like: like_params}, xhr:true
-        expect(response).to redirect_to "/users/sign_in"
+        post create_like_path(review), params: {like: like_params}, xhr:true
+        expect(response.body()).to eq "ログインもしくはアカウント登録してください。"
       end
     end
   end
@@ -55,8 +55,8 @@ RSpec.describe 'Likes API', type: :request do
         it "いいねを消せる" do
           sign_in user
           expect{
-            delete like_path(review), xhr:true
-          }.to change(user.likes,:count).by(-1)
+            delete destroy_like_path(review), xhr:true
+          }.to change(user.reload.likes,:count).by(-1)
         end
       end
       context "いいねをしていないレビューの場合" do
@@ -64,15 +64,15 @@ RSpec.describe 'Likes API', type: :request do
         it "いいねができない" do
           sign_in user
           expect{
-            delete like_path(other_review1), xhr:true
-          }.to_not change(user.likes,:count)
+            delete destroy_like_path(other_review1), xhr:true
+          }.to_not change(user.reload.likes,:count)
         end
       end
     end
     context "サインインしていない場合" do
       it "サインイン画面へ遷移" do
-        delete like_path(review), xhr:true
-        expect(response).to redirect_to "/users/sign_in"
+        delete destroy_like_path(review), xhr:true
+        expect(response.body()).to eq "ログインもしくはアカウント登録してください。"
       end
     end
   end
