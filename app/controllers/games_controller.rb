@@ -26,7 +26,7 @@ class GamesController < ApplicationController
         if review.count != 0
             if review.average(:score) >= 8
                 return "bg-success"
-            elseif review.average(:score) >= 4
+            elsif review.average(:score) >= 4
                 return "bg-warning"
             else
                 return "bg-danger"
