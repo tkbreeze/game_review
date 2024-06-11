@@ -1,6 +1,6 @@
 # 本アプリについて
 
-公開先URL: [www.game-review-aggregator.net](https://www.game-review-aggregator.net)
+公開先URL: [game-review-aggregator.net](https://game-review-aggregator.net)
 
 #### 本アプリの概要
 ゲームレビューを投稿するWebアプリケーションを、Railsを使用し、作りました。
@@ -24,7 +24,7 @@
 ### インフラ
 * AWS EC2サーバー
 * AWS S3にユーザー画像を保存
-* Amazon SESによるメール送信
+* Amazon SESによるメール送信(アカウントデータ変更時)
 
 ## スクリーンショット
 ![Home画面](https://user-images.githubusercontent.com/120573270/223739992-db0a280c-fb04-4911-9392-f6b747042f2d.png "Home画面")
