@@ -38,3 +38,7 @@ Home画面
 ![アカウント詳細ページ](https://user-images.githubusercontent.com/120573270/223738603-4557cd30-5535-46db-baf1-e060eaba1f7f.png "アカウント詳細ページ")
 
 アカウント詳細ページ
+
+## ToDo
++ [ ] ゲーム自動追加
++ [ ] ゲームニュース機能
