@@ -45,5 +45,3 @@
 #identifier拡張子をGitHubにあげない
 *.Identifier
 
-#.envファイルをGitHubにあげない
-/.env

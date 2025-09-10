@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.1"
+ruby "3.2.3"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
@@ -71,6 +71,9 @@ gem 'dotenv-rails'
 
 #SES(メール送信)
 gem 'aws-sdk-rails'
+
+# スケジューリング
+gem 'whenever', require: false
 
 # Use Sass to process CSS
 # gem "sassc-rails"
