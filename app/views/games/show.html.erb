@@ -36,6 +36,18 @@
           </div>
         </dd>
       </dl>
+      <% if @game.aggregated_rating.present? %>
+        <div class="d-flex align-items-center gap-3 mt-2 mb-3">
+          <div class="<%= @game.aggregated_rating >= 75 ? 'bg-success' : (@game.aggregated_rating >= 50 ? 'bg-warning' : 'bg-danger') %> text-white rounded d-flex align-items-center justify-content-center fw-bold"
+               style="width:3.5rem;height:3.5rem;font-size:1.5rem;">
+            <%= @game.aggregated_rating.round %>
+          </div>
+          <div>
+            <div class="fw-bold">Metacritic</div>
+            <div class="text-muted small">メディアスコア</div>
+          </div>
+        </div>
+      <% end %>
       <%if !user_signed_in? or !@reviews.exists?(user_id: current_user.id)%>
         <%=link_to 'レビュー投稿', new_game_review_path(@game), class:"btn btn-primary"%>
       <%else%>
