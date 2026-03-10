@@ -1,5 +1,4 @@
 <%= paginator.render do -%>
-  <%- unless num_pages < 2 -%>
   <nav aria-label="ページネーション">
     <ul class="pagination pagination-modern justify-content-center align-items-center gap-1">
       <%= first_page_tag unless current_page.first? %>
@@ -15,5 +14,4 @@
       <%= last_page_tag unless current_page.last? %>
     </ul>
   </nav>
-  <%- end -%>
 <% end -%>
