@@ -16,20 +16,24 @@
       <h2><%= @game.title%></h2>
       <dl class="row">
         <dt class="col-sm-3">パブリッシャー</dt>
-        <dd class="col-sm-9"><%= @game.maker%></dd>
+        <dd class="col-sm-9"><%= link_to @game.maker, games_path(maker: @game.maker), class: "badge rounded-pill bg-secondary text-decoration-none fs-6 fw-normal" %></dd>
         <dt class="col-sm-3">リリース日</dt>
         <dd class="col-sm-9"><%=@game.release_date%></dd>
         <dt class="col-sm-3">ハードウェア</dt>
         <dd class="col-sm-9">
-          <% @hardwares.each do |hardware|%>
-            <p><%=hardware.name%></p>
-          <% end %>
+          <div class="d-flex flex-wrap gap-2">
+            <% @hardwares.each do |hardware|%>
+              <%= link_to hardware.name, games_path(name: hardware.id), class: "badge rounded-pill bg-primary text-decoration-none fs-6 fw-normal" %>
+            <% end %>
+          </div>
         </dd>
         <dt class="col-sm-3">ジャンル</dt>
         <dd class="col-sm-9">
-          <% @genres.each do |genre|%>
-            <p><%=genre.name%></p>
-          <% end %>
+          <div class="d-flex flex-wrap gap-2">
+            <% @genres.each do |genre|%>
+              <%= link_to genre.name, games_path(genre_id: genre.id), class: "badge rounded-pill bg-success text-decoration-none fs-6 fw-normal" %>
+            <% end %>
+          </div>
         </dd>
       </dl>
       <%if !user_signed_in? or !@reviews.exists?(user_id: current_user.id)%>

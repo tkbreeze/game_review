@@ -1,6 +1,14 @@
 class GamesController < ApplicationController
     def index
-        @games = params[:name].present? ? Hardware.find(params[:name]).games.order(release_date: :desc).page(params[:page]).per(10) : Game.order(release_date: :desc).page(params[:page]).per(10)
+        @games = if params[:name].present?
+            Hardware.find(params[:name]).games.order(release_date: :desc).page(params[:page]).per(10)
+        elsif params[:maker].present?
+            Game.where(maker: params[:maker]).order(release_date: :desc).page(params[:page]).per(10)
+        elsif params[:genre_id].present?
+            Genre.find(params[:genre_id]).games.order(release_date: :desc).page(params[:page]).per(10)
+        else
+            Game.order(release_date: :desc).page(params[:page]).per(10)
+        end
         #@hardwares = Hardware.where(id: GameHardware.where(game_id: Game.where(id: @games)))
         #@genres = Genre.where(id: GameGenre.where(game_id: Game.where(id: @games)))
     end
