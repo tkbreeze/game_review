@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_10_000001) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_10_120719) do
   create_table "game_genres", force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "genre_id", null: false
@@ -37,6 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_10_000001) do
     t.datetime "updated_at", null: false
     t.integer "igdb_id"
     t.string "cover"
+    t.float "aggregated_rating"
     t.index ["igdb_id"], name: "index_games_on_igdb_id", unique: true
   end
 

@@ -60,6 +60,7 @@ class IgdbService
   #   genres.name                  → genres.name (正規化)
   #   involved_companies.*         → games.maker (publisher 優先, 次に developer)
   #   cover.image_id               → games.cover (CarrierWave でダウンロード保存)
+  #   aggregated_rating            → games.aggregated_rating (Metacritic等の外部批評家スコア)
   def fetch_games(days_ago: 1)
     since    = (Date.today - days_ago).to_time.to_i
     till_now = Time.now.to_i
@@ -72,7 +73,8 @@ class IgdbService
              involved_companies.company.name,
              involved_companies.developer,
              involved_companies.publisher,
-             cover.image_id;
+             cover.image_id,
+             aggregated_rating;
       where first_release_date >= #{since} & first_release_date <= #{till_now};
       sort first_release_date desc;
       limit 500;
@@ -106,9 +108,10 @@ class IgdbService
   def sync_game(data)
     game = Game.find_or_initialize_by(igdb_id: data['id'])
 
-    game.title        = data['name']
-    game.release_date = Time.at(data['first_release_date']).to_date if data['first_release_date']
-    game.maker        = extract_maker(data['involved_companies'])
+    game.title              = data['name']
+    game.release_date       = Time.at(data['first_release_date']).to_date if data['first_release_date']
+    game.maker              = extract_maker(data['involved_companies'])
+    game.aggregated_rating  = data['aggregated_rating']
 
     game.save!
 
