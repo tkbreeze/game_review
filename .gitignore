@@ -47,3 +47,6 @@
 
 #.envファイルをGitHubにあげない
 /.env
+
+*.DS_Store
+.VSCodeCounter
