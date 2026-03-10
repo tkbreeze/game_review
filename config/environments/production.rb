@@ -98,7 +98,7 @@ Rails.application.configure do
     region: 'ap-northeast-1'
   )
 
-  config.action_mailer.default_url_options = { host: 'www.game-review-aggregator.net' }
+  config.action_mailer.default_url_options = { host: 'game-review-aggregator.net' }
   config.action_mailer.delivery_method = :ses
   config.action_mailer.perform_deliveries = true
   config.action_mailer.perform_caching = false
