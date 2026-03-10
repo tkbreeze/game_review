@@ -9,11 +9,27 @@
         <li class="nav-item">
           <%= link_to "Top", root_path,class:"nav-link active" %>
         </li>
-        <%Hardware.all.each do |hardware|%>
+        <% primary_names = ["Nintendo Switch 2", "Nintendo Switch", "PlayStation 5", "Xbox Series X|S", "PC (Microsoft Windows)"] %>
+        <% hardwares = Hardware.all.to_a %>
+        <% primary_hardwares = hardwares.select { |h| primary_names.include?(h.name) }.sort_by { |h| primary_names.index(h.name) } %>
+        <% extra_hardwares = hardwares.reject { |h| primary_names.include?(h.name) } %>
+        <%primary_hardwares.each do |hardware|%>
           <li class="nav-item">
             <%= link_to hardware.name,games_path(name: hardware.id),class:"nav-link"%>
           </li>
         <%end%>
+        <% if extra_hardwares.any? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              もっと見る
+            </a>
+            <ul class="dropdown-menu">
+              <% extra_hardwares.each do |hardware| %>
+                <li><%= link_to hardware.name, games_path(name: hardware.id), class: "dropdown-item" %></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
       <ul class="navbar-nav ms-auto">
         <% if current_user %>
           <li class="nav-item dropdown">
