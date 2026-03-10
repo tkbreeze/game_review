@@ -72,6 +72,9 @@ gem 'dotenv-rails'
 #SES(メール送信)
 gem 'aws-sdk-rails'
 
+#cronスケジューリング
+gem 'whenever', require: false
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
