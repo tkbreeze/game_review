@@ -18,7 +18,7 @@
         <%= link_to game_path(game),class: "text-decoration-none link-dark",id:game.title do%>
           <div class="row g-0">
             <div class="col-md-2 col-lg-2">
-              <%=image_tag game.id.to_s+'.jpg', class:"img-fluid"%>
+              <%=image_tag game.cover.url, class:"img-fluid"%>
             </div>
             <div class="col-md-10 col-lg-9">
               <div class="card-body">
