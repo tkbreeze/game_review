@@ -2,9 +2,10 @@ class GamesController < ApplicationController
   def index
     @games = Game.all
 
-    # タイトル検索
+    # タイトル検索（アクセント記号・大文字小文字を無視した曖昧検索）
     if params[:q].present?
-      @games = @games.where("title LIKE ?", "%#{params[:q]}%")
+      normalized_q = Game.normalize_for_search(params[:q])
+      @games = @games.where("normalized_title LIKE ?", "%#{normalized_q}%")
     end
 
     # フィルタ（サブクエリで重複を回避）

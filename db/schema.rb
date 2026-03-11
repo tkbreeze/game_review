@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_10_130000) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_11_000000) do
   create_table "game_genres", force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "genre_id", null: false
@@ -42,7 +42,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_10_130000) do
     t.integer "reddit_post_count", default: 0
     t.float "trending_score", default: 0.0
     t.datetime "trending_updated_at"
+    t.string "normalized_title"
     t.index ["igdb_id"], name: "index_games_on_igdb_id", unique: true
+    t.index ["normalized_title"], name: "index_games_on_normalized_title"
   end
 
   create_table "genres", force: :cascade do |t|
