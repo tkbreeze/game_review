@@ -9,3 +9,8 @@ set :output, Rails.root.join('log/cron.log').to_s
 every 1.day, at: '2:00 am' do
   rake 'igdb:sync_new_games'
 end
+
+# 6時間ごとにTwitch・Xからトレンドスコアを更新
+every 6.hours do
+  rake 'trending:update'
+end

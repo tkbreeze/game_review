@@ -5,13 +5,150 @@
     <%=params[:maker]%>
   <%elsif params[:genre_id].present?%>
     <%=Genre.find(params[:genre_id].to_i).name%>
+  <%elsif params[:q].present?%>
+    「<%=params[:q]%>」の検索結果
   <%else%>
     Home
   <%end%>
 <%end%>
 <body>
 <%= render "shared/header" %>
-<p></p>
+
+<%# ===== 検索・ソート・フィルタ UI ===== %>
+<div class="px-lg-4 px-2 pt-3">
+
+  <%# 検索フォーム %>
+  <%= form_with url: games_path, method: :get, local: true, class: "d-flex gap-2 mb-3" do |f| %>
+    <%# 現在のフィルタ/ソートを維持する隠しフィールド %>
+    <%= hidden_field_tag :name,     params[:name]     if params[:name].present? %>
+    <%= hidden_field_tag :genre_id, params[:genre_id] if params[:genre_id].present? %>
+    <%= hidden_field_tag :maker,    params[:maker]    if params[:maker].present? %>
+    <%= hidden_field_tag :sort,     params[:sort]     if params[:sort].present? %>
+    <%= hidden_field_tag :trending, params[:trending] if params[:trending].present? %>
+
+    <%= f.text_field :q,
+          value: params[:q], placeholder: "ゲームタイトルで検索...",
+          class: "form-control" %>
+    <%= f.submit "検索", class: "btn btn-primary text-nowrap" %>
+    <%if params[:q].present?%>
+      <%= link_to "クリア",
+            games_path(params.permit(:name, :genre_id, :maker, :sort, :trending).to_h),
+            class: "btn btn-outline-secondary text-nowrap" %>
+    <%end%>
+  <%end%>
+
+  <%# ソート + 注目フィルタ %>
+  <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+    <span class="text-muted small">並び順:</span>
+
+    <% sort_base = params.permit(:q, :name, :genre_id, :maker, :trending).to_h %>
+    <%= link_to "発売日",
+          games_path(sort_base.merge(sort: nil)),
+          class: "btn btn-sm #{params[:sort].blank? ? 'btn-secondary' : 'btn-outline-secondary'}" %>
+    <%= link_to "メディアスコア",
+          games_path(sort_base.merge(sort: "media_score")),
+          class: "btn btn-sm #{params[:sort] == 'media_score' ? 'btn-secondary' : 'btn-outline-secondary'}" %>
+    <%= link_to "ユーザースコア",
+          games_path(sort_base.merge(sort: "user_score")),
+          class: "btn btn-sm #{params[:sort] == 'user_score' ? 'btn-secondary' : 'btn-outline-secondary'}" %>
+    <%= link_to "注目度",
+          games_path(sort_base.merge(sort: "trending")),
+          class: "btn btn-sm #{params[:sort] == 'trending' ? 'btn-warning' : 'btn-outline-warning'}" %>
+
+    <span class="text-muted small ms-2">|</span>
+
+    <%# ジャンルフィルタ %>
+    <div class="dropdown">
+      <button class="btn btn-sm <%= params[:genre_id].present? ? 'btn-success' : 'btn-outline-success' %> dropdown-toggle"
+              type="button" data-bs-toggle="dropdown">
+        <% if params[:genre_id].present? %>
+          <%= Genre.find(params[:genre_id].to_i).name %>
+        <% else %>
+          ジャンル
+        <% end %>
+      </button>
+      <ul class="dropdown-menu" style="max-height:300px;overflow-y:auto;">
+        <% if params[:genre_id].present? %>
+          <li>
+            <%= link_to "すべてのジャンル",
+                  games_path(params.permit(:q, :name, :maker, :sort, :trending).to_h),
+                  class: "dropdown-item text-muted" %>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+        <% end %>
+        <% Genre.order(:name).each do |genre| %>
+          <li>
+            <%= link_to genre.name,
+                  games_path(params.permit(:q, :name, :maker, :sort, :trending).to_h.merge(genre_id: genre.id)),
+                  class: "dropdown-item #{'active' if params[:genre_id].to_i == genre.id}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <span class="text-muted small ms-2">|</span>
+
+    <% trending_base = params.permit(:q, :name, :genre_id, :maker, :sort).to_h %>
+    <% if params[:trending] == "1" %>
+      <%= link_to "🔥 注目中",
+            games_path(trending_base.merge(trending: nil)),
+            class: "btn btn-sm btn-warning" %>
+    <% else %>
+      <%= link_to "🔥 注目のみ",
+            games_path(trending_base.merge(trending: "1")),
+            class: "btn btn-sm btn-outline-warning" %>
+    <% end %>
+  </div>
+
+  <%# アクティブフィルタ表示 %>
+  <% has_filter = params[:name].present? || params[:genre_id].present? ||
+                  params[:maker].present? || params[:q].present? || params[:trending] == "1" %>
+  <% if has_filter %>
+    <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+      <span class="text-muted small">フィルタ中:</span>
+
+      <% if params[:name].present? %>
+        <%= link_to games_path(params.permit(:q, :genre_id, :maker, :sort, :trending).to_h),
+              class: "badge rounded-pill bg-primary text-decoration-none" do %>
+          <%= Hardware.find(params[:name].to_i).name %> ×
+        <% end %>
+      <% end %>
+
+      <% if params[:genre_id].present? %>
+        <%= link_to games_path(params.permit(:q, :name, :maker, :sort, :trending).to_h),
+              class: "badge rounded-pill bg-success text-decoration-none" do %>
+          <%= Genre.find(params[:genre_id].to_i).name %> ×
+        <% end %>
+      <% end %>
+
+      <% if params[:maker].present? %>
+        <%= link_to games_path(params.permit(:q, :name, :genre_id, :sort, :trending).to_h),
+              class: "badge rounded-pill bg-secondary text-decoration-none" do %>
+          <%= params[:maker] %> ×
+        <% end %>
+      <% end %>
+
+      <% if params[:q].present? %>
+        <%= link_to games_path(params.permit(:name, :genre_id, :maker, :sort, :trending).to_h),
+              class: "badge rounded-pill bg-secondary text-decoration-none" do %>
+          「<%= params[:q] %>」×
+        <% end %>
+      <% end %>
+
+      <% if params[:trending] == "1" %>
+        <%= link_to games_path(params.permit(:q, :name, :genre_id, :maker, :sort).to_h),
+              class: "badge rounded-pill bg-warning text-decoration-none text-dark" do %>
+          🔥 注目 ×
+        <% end %>
+      <% end %>
+
+      <%= link_to "すべてクリア", games_path(sort: params[:sort].presence),
+            class: "badge rounded-pill bg-danger text-decoration-none ms-1" %>
+    </div>
+  <% end %>
+</div>
+
+<%# ===== ゲーム一覧 ===== %>
 <div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1 m-lg-4">
   <% @games.each do |game| %>
     <%review = Review.where(game_id: game)%>
@@ -27,7 +164,15 @@
             <div class="col-md-10 col-lg-9">
               <div class="card-body">
                 <h5 class="card-title"><%=game.title%></h5>
-                <p class="card-text">スコア: <%=review.average(:score)%></p>
+                <p class="card-text">
+                  スコア: <%=review.average(:score)%>
+                  <%if game.aggregated_rating.present?%>
+                    <span class="ms-2 fw-bold small
+                      <%= game.aggregated_rating >= 75 ? 'text-success' : (game.aggregated_rating >= 50 ? 'text-warning' : 'text-danger') %>">
+                      MC:<%=game.aggregated_rating.round%>
+                    </span>
+                  <%end%>
+                </p>
                 <p class="card-text">発売日: <%=game.release_date%></p>
                 <p class="card-text">パブリッシャー: <%=game.maker%></p>
                 <%hardwares.each do |hardware|%>
@@ -38,7 +183,12 @@
                     <p class="card-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=hardware.name%></p>
                   <%end%>
                 <%end%>
-                </p>
+                <%if params[:sort] == "trending" && game.respond_to?(:twitch_viewer_count) && game.trending_score.to_f > 0%>
+                  <p class="card-text small text-muted">
+                    Twitch: <%=number_with_delimiter(game.twitch_viewer_count.to_i)%>人 /
+                    Reddit: <%=number_with_delimiter(game.reddit_post_count.to_i)%>件
+                  </p>
+                <%end%>
               </div>
             </div>
           </div>
